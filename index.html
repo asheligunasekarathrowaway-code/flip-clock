@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSFiddle b2hL6wkf</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+:root {
+  --bg: #ffffff;
+  --panel: #f1f1ef;
+  --text: #37352f;
+  --gap: 2px;       /* thin horizontal split */
+  --radius: 18px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.clock {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between hour and minute */
+}
+
+.unit {
+  width: 110px;
+  height: 180px;       /* tall rectangle */
+  background: var(--panel);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.half {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+
+.half.top {
+  border-bottom: var(--gap) solid var(--bg);
+}
+
+.number {
+  position: absolute;
+  top: 100%;                 /* sit on horizontal split */
+  transform: translateY(-50%);
+  font-size: 48px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ampm {
+  margin-left: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.08em;
+  align-self: flex-end;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600
+}
+  </style>
+
+  
+</head>
+<body>
+  <div class="clock">
+  <!-- Hours -->
+  <div class="unit" id="hours">
+    <div class="half top"><span class="number">--</span></div>
+    <div class="half bottom"><span class="number"></span></div>
+  </div>
+
+  <!-- Minutes -->
+  <div class="unit" id="minutes">
+    <div class="half top"><span class="number">--</span></div>
+    <div class="half bottom"><span class="number"></span></div>
+  </div>
+
+  <!-- AM/PM -->
+  <div class="ampm" id="ampm">AM</div>
+</div>
+
+  <script>
+    function updateClock() {
+  const now = new Date();
+
+  let hours = now.getHours();
+  const minutes = now.getMinutes();
+
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+
+  const hStr = String(hours).padStart(2, '0');
+  const mStr = String(minutes).padStart(2, '0');
+
+  // Numbers sit on the horizontal split
+  document.querySelector('#hours .top .number').textContent = hStr;
+  document.querySelector('#hours .bottom .number').textContent = '';
+  document.querySelector('#minutes .top .number').textContent = mStr;
+  document.querySelector('#minutes .bottom .number').textContent = '';
+
+  document.getElementById('ampm').textContent = ampm;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
